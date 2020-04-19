@@ -30,9 +30,10 @@ Considere um algoritmo de aprendizagem de máquina que interpreta marcações de
 A avaliação de performance ou desempenho de modelos de machine learning é um ponto de relevância e, de fato, temos uma etapa de avaliação que pode fazer parte de um projeto de ciência de dados. Uma métrica amplamente conhecida na literatura é colocada abaixo:
 
 Sobre a interpretação dessa métrica de desempenho, marque a alternativa correta:
+
 ( ) a) A aplicação da métrica MSE só ocorre na aprendizagem não supervisionada.
 ( ) b) Na equação, o termo yi consiste na i-ésima estimativa do modelo de ML.
-( ) c) Só é possível estimar, empiricamente, o MSE para o conjunto de treinamento.
+(X) c) Só é possível estimar, empiricamente, o MSE para o conjunto de treinamento.
 ( ) d) Quanto maior é o valor do MSE, pior será o desempenho do modelo de ML avaliado.
 
 
@@ -42,7 +43,7 @@ As Figuras (a) e (b) abaixo, extraídas do livro An Introduction to Statistical 
 ( ) a) A razão pela qual o MSEtest não segue o decaimento do MSEtrein reside na falha de generalização do modelo smoothing splines utilizado.
 ( ) b) O comportamento em "U" para curva do MSEtest ocorre porque a função hipótese verdadeira é do tipo não linear.
 ( ) c) Nota-se que existe uma garantia de performance de teste (i.e., baixo MSEtest) se nós ajustarmos o modelo de ML com os dados de treinamento.
-( ) d) A diferença entre MSEtrein e MSEtest é explicada pelo fato de que o processo de aprendizagem das técnicas de ML se baseia na minimização do MSEtrein e, por conta disso, não pode garantir ótima generalização para os dados de teste (i.e., baixo MSEtest).
+(X) d) A diferença entre MSEtrein e MSEtest é explicada pelo fato de que o processo de aprendizagem das técnicas de ML se baseia na minimização do MSEtrein e, por conta disso, não pode garantir ótima generalização para os dados de teste (i.e., baixo MSEtest).
 
 
 6. Exercício 6 (Técnicas de ML)
