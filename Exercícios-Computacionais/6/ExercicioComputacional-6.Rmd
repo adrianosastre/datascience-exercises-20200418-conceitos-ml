@@ -1,0 +1,18 @@
+---
+title: "Exercício Computacional 1"
+output: html_notebook
+---
+
+Importando libraries:
+
+```{r}
+library(tidyverse)
+
+```
+
+Setando o diretório corrente:
+
+```{r}
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+getwd()
+```

@@ -1,0 +1,96 @@
+---
+title: "Exercício Computacional 1"
+output: html_notebook
+---
+
+Importando libraries:
+
+```{r}
+library(tidyverse)
+library(dplyr)
+```
+
+Setando o diretório corrente:
+
+```{r}
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+getwd()
+```
+
+Conceito explorado: Dataframes
+Dataframes podem ser interpretados como tabelas de dados ou dados tabulados e, talvez, sejam uma
+das estruturas de dados linha-coluna mais importantes na linguagem R no momento em que pensamos
+em aplicá-la para ciência de dados. Por isso, esse exercício tem um propósito básico: criar e explorar
+comandos básicos relacionados com dataframes no R.
+
+1) Crie o dataframe mostrado na figura acima e armazene no objeto df
+
+```{r}
+ids <- c(1, 2, 3, 4, 5)
+empresas <- c('A','B','C','D','E')
+indices <- c(500.3, 530.2, 630.5, 400.2, 940.2)
+datas <- as.Date(c('2020-03-05','2020-04-21','2020-12-10','2020-10-15','2020-09-20'))
+
+df = data.frame(ids, empresas, indices, datas)
+```
+
+
+2) Utilize a função str() e interprete os resultados sobre cada tipo de dado contido no dataframe
+
+```{r}
+str(df)
+```
+
+
+3) Faça a extração apenas das colunas de empresas e índices
+
+```{r}
+df.empresas.indices <-
+  df %>% select(empresas, indices)
+
+str(df.empresas.indices)
+```
+
+
+4) Crie um array com os elementos relacionados com: a primeira (1) e terceira (3) linhas e a
+segunda (2) e quarta (4) colunas.
+
+```{r}
+array.rows.1.3.and.columns.2.4 <- df[c(1,3), c(2,4)]
+
+str(array.rows.1.3.and.columns.2.4)
+```
+
+5) Adicione uma nova coluna ao dataframe com os setores empresariais "IT", "adm", "executivo",
+"RH", "O&M" e armazene em novo dataframe chamado df3
+
+```{r}
+setores <- c('IT','Adm','Executivo','RH','O&M')
+
+df3 <- data.frame(df, setores)
+
+str(df3)
+```
+
+6) Combine o dataframe do item 1), dado por df, com o novo dataframe mostrado abaixo e
+armazene o resultado, também como dataframe, no objeto dfn. Estude as funções rbind e
+cbind para isso.
+
+```{r}
+
+ids <- c(6, 7, 8, 9, 10)
+empresas <- c('F','G','H','I','J')
+indices <- c(1200.3, 230.4, 100.5, 905.4, 1100.5)
+datas <- as.Date(c('2020-09-10','2020-07-08','2020-10-15','2020-06-07','2020-02-22'))
+
+new_df = data.frame(ids, empresas, indices, datas)
+
+dfn = rbind(df, new_df)
+
+str(dfn)
+
+```
+
+RESPOSTA:
+
+rbind é a função mais apropriada para essa tarefa, pois combina as linhas dos 2 dataframes em um novo dataframe, mantendo as colunas.
