@@ -1,5 +1,5 @@
 ---
-title: "Exercício Computacional 1"
+title: "Exercício Computacional 3"
 output: html_notebook
 ---
 
@@ -16,3 +16,78 @@ Setando o diretório corrente:
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 getwd()
 ```
+
+Conceito explorado: Estatística Descritiva e Análise Exploratória de Dados
+
+A Figura abaixo mostra um instrumento de teste (Field Fox Keysight) que pode ser usado em laboratório
+ou em campo para medições de sinais de radiofrequência como os presentes em sistemas de
+comunicações sem fio. Isso significa que podemos usar esse equipamento para análise de redes sem
+fio, cobertura de operadoras de telecomunicações, além de testes com dispositivos de RF e outros
+equipamentos de telecomunicações.
+
+Nesse contexto, utilizamos esse equipamento para a realização de medições de intensidade de sinal no
+campus do Inatel a fim de levantar a cobertura de uma rede sem fio experimental, configurada para
+transmitir sinais na faixa de frequência de ondas milimétricas. O estudo de cobertura e propagação
+nessa faixa de frequência é um aspecto de pesquisa relevante para sistemas de comunicações da quinta
+geração de redes móveis. 
+
+Nesse exercício, temos o objetivo de fazer a análise exploratória de dois
+conjuntos de dados, dataset_1 e dataset_2 exportados pelo instrumento de teste.
+
+ 1) Faça a importação do arquivos dataset_1 e dataset_2 exportados pelo equipamento para o
+ambiente do RStudio.
+
+```{r}
+dataset_1 = read.csv("dataset_1.csv", header = FALSE)
+dataset_2 = read.csv("dataset_2.csv", header = FALSE)
+```
+
+OBS = Tive que retirar os comentários dos arquivos .csv antes da importação.
+
+ 2) Análise o resultado da importação, como as estruturas e tipos de variáveis. Quais são as
+principais informações contidas no arquivo?
+
+```{r}
+head(dataset_1)
+tail(dataset_1)
+str(dataset_1)
+
+head(dataset_2)
+tail(dataset_2)
+str(dataset_2)
+```
+
+RESPOSTA = Ambos são data frames com as 2 primeiras colunas numéricas (ponto decimal) e mais 3 colunas numéricas (inteiro).
+Coluna 1 = 
+Coluna 2 = Potência e recepção (db)
+Coluna 3 = 
+Coluna 4 = 
+Coluna 5 =
+
+ 3) Obtenha o histograma dos valores de potência de recepção coletados pelo equipamento em
+cada conjunto de dados.
+
+```{r}
+
+ggplot2::ggplot(data=dataset_1, aes(V2)) + 
+  ggplot2::geom_histogram( aes(y =..density..),
+                 col="red", 
+                 fill="green", 
+                 alpha=.2) + 
+  ggplot2::geom_density(col="blue") 
+
+
+ggplot2::ggplot(data=dataset_2, aes(V2)) + 
+  ggplot2::geom_histogram( aes(y =..density..),
+                 col="red", 
+                 fill="green", 
+                 alpha=.2) + 
+  ggplot2::geom_density(col="blue") 
+
+
+```
+
+
+ 4) Em qual localidade específica foram realizadas as medições de cada conjunto de dados?
+ 
+ RESPOSTA = Todos os testes realizados em 2.8e+10
