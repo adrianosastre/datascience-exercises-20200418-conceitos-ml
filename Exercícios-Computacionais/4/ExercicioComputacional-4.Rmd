@@ -1,5 +1,5 @@
 ---
-title: "Exercício Computacional 1"
+title: "Exercício Computacional 4"
 output: html_notebook
 ---
 
@@ -7,7 +7,11 @@ Importando libraries:
 
 ```{r}
 library(tidyverse)
-
+library(dplyr)
+library(ggplot2)
+library(mapview)
+library(sp)
+library(leaflet)
 ```
 
 Setando o diretório corrente:
@@ -15,4 +19,97 @@ Setando o diretório corrente:
 ```{r}
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 getwd()
+```
+
+Conceito explorado: Estatística Descritiva e Análise Exploratória de Dados
+
+Considere o mesmo contexto do exercício anterior e um conjunto maior de arquivos .csv, que são
+exportados pelo instrumento de medida e armazenados em um diretório.
+
+ 1) Com os arquivos .csv armazenados no diretório, elabore uma rotina em linguagem R para
+fazer a leitura de todos os arquivos de forma otimizada.
+
+```{r}
+#datasets 
+dataset = read.csv("dataset_1.csv", header = FALSE, comment.char = '!')
+class(dataset)
+str(dataset)
+
+for(i in 2:10) {
+  filename = paste(paste("dataset_", i, sep = ""), ".csv", sep = "")
+  #print(filename)
+  new_dataset = read.csv(filename, header = FALSE, comment.char = '!')
+  #str(new_dataset)
+  dataset <- rbind(dataset, new_dataset)
+}
+
+dataset <- na.exclude(dataset)
+
+class(dataset)
+str(dataset)
+```
+
+
+ 2) Capture os dados de geolocalização (latitude, longitude) de todos os arquivos, faça os
+processamentos e transformações necessárias, visando o armazenamento em um dataframe.
+
+```{r}
+dfLatLong <- data.frame(matrix(ncol = 3, nrow = 0))
+colnames(dfLatLong) <- c("filename", "lat", "long")
+
+for(i in 1:10) {
+  filename = paste(paste("dataset_", i, sep = ""), ".csv", sep = "")
+  lines = readLines(filename)
+  
+  # pegando dados de latitude e longitude de cada arquivo:
+  lat <- lines[13]
+  long <- lines[14]
+  lat <- substring(lat,17)
+  long <- substring(long,18)
+  
+  # preparando para transformar os dados de geolocation em numérico:
+  
+  lat_chd = paste(substr(lat,1,2), sep="", "d")
+  lat_chm = paste(substr(lat,4,5), sep="", "'")
+  lat_chs = paste(as.character(as.numeric(substr(lat,6,11)) * 60), sep="", "\"")
+  lat_ns = "S"
+  
+  long_chd = paste(substr(long,1,2), sep="", "d")
+  long_chm = paste(substr(long,4,5), sep="", "'")
+  long_chs = paste(as.character(as.numeric(substr(long,6,11)) * 60), sep="", "\"")
+  long_ew = "W"
+  
+  lat_from = paste(lat_chd, sep="", 
+                   paste(lat_chm, sep = "", 
+                         paste(lat_chs, sep = "",
+                               paste(lat_ns, sep=""))))
+  
+  long_from = paste(long_chd, sep="", 
+                   paste(long_chm, sep = "", 
+                         paste(long_chs, sep = "",
+                               paste(long_ew, sep=""))))
+  
+  coords <- c(lat_from, long_from)
+  cd = as.numeric(char2dms(coords))
+  
+  # armazenando nome do arquivo e dados de localização em um dataframe:
+  dfLatLong[nrow(dfLatLong) + 1,] = c(filename, cd[1], cd[2])
+}
+
+class(dfLatLong)
+str(dfLatLong)
+```
+
+ 3) Apresente no mapa os dados de geolocalização obtidos no item anterior.
+ 
+```{r}
+# ponto central para posicionar o mapa:
+cntr_crds <- c(mean(as.numeric(dfLatLong$lat)), mean(as.numeric(dfLatLong$long)))
+
+# Mapa mostrando lat/long e nome do dataset:
+m <- mapview()
+m@map %>% 
+  setView(cntr_crds[2], cntr_crds[1], zoom = 16) %>% 
+  addPopups(as.numeric(dfLatLong$long), as.numeric(dfLatLong$lat), dfLatLong$filename)
+
 ```

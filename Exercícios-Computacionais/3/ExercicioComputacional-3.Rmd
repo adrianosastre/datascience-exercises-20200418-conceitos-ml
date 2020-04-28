@@ -38,8 +38,11 @@ conjuntos de dados, dataset_1 e dataset_2 exportados pelo instrumento de teste.
 ambiente do RStudio.
 
 ```{r}
-dataset_1 = read.csv("dataset_1.csv", header = FALSE)
-dataset_2 = read.csv("dataset_2.csv", header = FALSE)
+dataset_1 = read.csv("dataset_1.csv", header = FALSE, comment.char = '!')
+dataset_2 = read.csv("dataset_2.csv", header = FALSE, comment.char = '!')
+
+dataset_1 <- na.exclude(dataset_1)
+dataset_2 <- na.exclude(dataset_2)
 ```
 
 OBS = Tive que retirar os comentários dos arquivos .csv antes da importação.
@@ -58,8 +61,8 @@ str(dataset_2)
 ```
 
 RESPOSTA = Ambos são data frames com as 2 primeiras colunas numéricas (ponto decimal) e mais 3 colunas numéricas (inteiro).
-Coluna 1 = 
-Coluna 2 = Potência e recepção (db)
+Coluna 1 = Freq
+Coluna 2 = SA Clear-Write (db)
 Coluna 3 = 
 Coluna 4 = 
 Coluna 5 =
