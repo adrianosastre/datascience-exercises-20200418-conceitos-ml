@@ -1,5 +1,5 @@
 ---
-title: "Exercício Computacional 1"
+title: "Exercício Computacional 6"
 output: html_notebook
 ---
 
@@ -16,3 +16,87 @@ Setando o diretório corrente:
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 getwd()
 ```
+
+Conceito explorado: MSE - Mean Square Error
+
+Considere o mesmo modelo de geração de dados do exercício anterior. O objetivo aqui é constatar o
+impacto do desvio padrão s sobre a performance do modelo proposto pelos cientistas de dados. Para
+isso, utilize a instrução abaixo, em linguagem R, para a geração de um vetor com diversos valores de
+desvio padrão para a incerteza Gaussiana retratada pelo termo e.
+
+Para que seja possível explorar e visualizar o impacto de s - realize, pelo menos, 1000 iterações do
+algoritmo. Especificamente, para cada valor de desvio padrão avaliado, armazene e faça o cálculo
+da média aritmética sobre 1000 valores de performance expressos pelo MSE. Um dica é utilizar
+estruturas em loop (for) para a implementação das iterações.
+
+ 1) Construa o modelo de geração de dados incluindo as iterações para cada valor de s
+ 
+```{r}
+# Número de amostras
+n = 100
+num_iter = 1000
+
+# std_vector = seq(1,10,1)
+
+# Vetor com valores de desvio-padrão entre 0 e 20
+std_vector = seq(1, 20, length.out = 100)
+std_vector
+
+std_vector = sort(std_vector, decreasing = TRUE)
+std_vector
+
+MSE_vector = rep(0,length(std_vector))
+MSE        = rep(0,num_iter)
+
+# Crie um vetor de índices x variando de 0 a 100. Utilize a função seq - sequence
+# x = seq(from = 0, to = 100, by = 1)
+x = seq(1, 100, length.out = n)
+x
+
+# Função hipótese verdadeira
+h_x <- 3*x + 30
+h_x
+
+
+for (k in 1:length(std_vector)){
+  
+  for (i in 1:num_iter){
+    
+    # Ruído
+    epsilon <- rnorm(n, 0, std_vector[k])
+    
+    # Variável de saída
+    y <- h_x + epsilon
+    
+    # Função hipótese Estimada
+    h_x_estimado <- 2.8*x + 32
+    
+    # Erro quadrático médio para uma iteração
+    MSE[i] = (1/n)*sum(((y - h_x_estimado)^2))
+  }
+  
+  
+  # Erro quadrático médio para várias iterações  
+  MSE_vector[k] = mean(MSE)
+}
+
+```
+ 
+
+ 2) Faça um gráfico que mostra o impacto de s, colocado sobre o eixo x, sobre o desempenho
+indicado pelo MSE, apresentado no eixo y.
+
+```{r}
+
+plot(std_vector,MSE_vector,col=1, pch=1, main = 'MSE - Mean Squared Error', 
+     col.main = 'black', 
+     xlab = 'Desvio padrão dos Erros',
+     ylab = 'MSE')
+grid()
+```
+
+
+ 3) Faça uma análise: o impacto com o aumento ou redução de s é significativo para o modelo?
+Qual a justificativa?
+
+RESPOSTA = O erro aumenta com o aumento de s.

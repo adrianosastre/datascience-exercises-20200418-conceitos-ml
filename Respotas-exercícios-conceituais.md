@@ -44,7 +44,7 @@ b. Baseado em instâncias: a generalização é realizada por métricas de simil
 
 10. Se um modelo de ML atinge um bom desempenho sobre os dados de treinamento, mas não generaliza bem para novos dados (teste), o que pode estar acontecendo? O que poderia ser realizado para melhorar a generalização do modelo de ML?
 
-Nesse caso, o modelo foi super treinado ("passou do ponto") para os dados de treinamento. 
+Nesse caso, o modelo foi super treinado ("passou do ponto") para os dados de treinamento.
 Para melhorar a generalização desse modelo, as seguintes abordagens poderiam ser aplicadas:
 - Verificar se os dados de treinamento consistem em amostras de todos os tipos de dados reais,
 - Aplicar corretamente as diferenças entre dados de treino e de teste (ex: 80% / 20%), ou treino/validação/teste (ex: 80% / 10% / 10%),
