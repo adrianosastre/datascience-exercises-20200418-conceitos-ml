@@ -10,7 +10,6 @@ library(tidyverse)
 library(quantmod)
 library(xts)
 library(moments)
-
 ```
 
 Setando o diretório corrente:
@@ -39,7 +38,40 @@ Essa função consegue obter os dados diretamente das fontes "Yahoo Finance" (ai
 Finance", que disponibilizam os dados gratuitamente. Utilize o nome "yahoo" para designar a fonte
 de dados na função getSymbols.
 
+ 1) Use a função getSymbols do pacote quantmod para capturar as cotações de ações da empresa
+Petrobras de janeiro/2020 até os dias atuais.
+
+ 2) Use a função candleChart do pacote quantmod para fazer a visualização da série temporal
+das cotações fechadas da Petrobras no período considerado. Pesquise e explore essa função;
+esse resultado é chamado de gráfico de velas (amplamente conhecido e usado em análises do
+mercado financeiro).
+
+ 3) Explore a série temporal obtida da empresa, teste outros períodos de tempo e identifique o
+significado dos campos trazidos da série.
+
+ 4) Use a função addBands, também do pacote quantmod, para plotar diretamente limites
+superior/inferior sobre a série temporal do item 1). Podemos parametrizar a função fornecendo:
+i) o período da média móvel e ii) a quantidade de desvio padrão relacionados com os limites.
+
+ 5) A partir os itens anteriores, faça uma análise dos preços de cotações da Petrobras e verifique
+os reflexos do momento atual que estamos passando (março/abril/2020).
+
+
 ```{r}
+# ==================================================================
+# Seleção de Janela de Tempo das Séries Temporais
+
+# Seleção de uma janela de tempo ou período de análise
+# ?as.Date
+Data_Inicio = as.Date("2020-01-01") 
+Data_Fim    = as.Date("2020-5-30")
+
+# ==================================================================
+# Importação de Dados
+
+# ?getSymbols -> do pacote quantmod
+# Load (carrega) e manage (gerencia) dados de múltipla fontes
+
 # Tanto o Yahoo como o Google oferecem um serviço gratuito de monitoramento
 # de ações do mercado financeiro. O serviço fornece as cotações de ações nas
 # principais bolsas de valores 
@@ -51,7 +83,6 @@ getSymbols("PETR4.SA", src = "yahoo", from = Data_Inicio, to = Data_Fim)
 # Verificando o tipo de objeto 
 class(PETR4.SA)
 is.xts(PETR4.SA)
-
 
 # É importante verificarmos, também, a estabilidade do serviço tanto do Yahoo como do Google
 # Outro ponto é a possibilidade de valores NA serem trazidos na série de temporal capturada
@@ -66,7 +97,6 @@ View(Serie_Temporal_Petrobras)
 # Observando o dataset - nós temos a cotação de abertura (open), a mais alta (high), mais baixa (low)
 # a cotação de fechamento (close), finalizando com volume e cotação ajustada.
 
-
 # ==================================================================
 # Processando Dados da Série Temporal 
 
@@ -78,22 +108,22 @@ is.xts(Serie_Petrobras_Close)
 
 # Alternativa (notação de slide)
 head(PETR4.SA)
-dados_close <- PETR4.SA[,"PETR4.SA.Close"]
+dados_close <- Serie_Temporal_Petrobras[,"PETR4.SA.Close"]
 dados_close
 # Repare que o índice de tempo vem junto com a captura dos dados
 
 # Alternativa (método com instrução Cl)
 ?Cl 
 # Extraçõ e transformação de colunas em time-series
-Open_Series   = Op(PETR4.SA)
-Closed_Series = Cl(PETR4.SA)
+Open_Series   = Op(Serie_Temporal_Petrobras)
+Closed_Series = Cl(Serie_Temporal_Petrobras)
 
 Open_Series[1]
 Closed_Series[1]
 
 ?OpCl
 
-Open_Closed_Series = OpCl(PETR4.SA)
+Open_Closed_Series = OpCl(Serie_Temporal_Petrobras)
 Open_Closed_Series[1]
 
 # Closed_Series[1]/Open_Series[1] - 1
@@ -117,38 +147,5 @@ plot(Serie_Petrobras_Close, main = "Fechamento Diário - Ações da Petrobrás",
 # Candle com toda a série
 candleChart(Serie_Temporal_Petrobras)
 
-
-# Adição de limites superior/inferior sobre a série temporal
-# Exemplo: bandas de bollinger
-?addBBands
-numero_desvios      = 1
-periodo_media_movel = 20
-addBBands(periodo_media_movel, numero_desvios)
-
-
-
-
-
-
-
 ```
-
-
- 1) Use a função getSymbols do pacote quantmod para capturar as cotações de ações da empresa
-Petrobras de janeiro/2020 até os dias atuais.
-
- 2) Use a função candleChart do pacote quantmod para fazer a visualização da série temporal
-das cotações fechadas da Petrobras no período considerado. Pesquise e explore essa função;
-esse resultado é chamado de gráfico de velas (amplamente conhecido e usado em análises do
-mercado financeiro).
-
- 3) Explore a série temporal obtida da empresa, teste outros períodos de tempo e identifique o
-significado dos campos trazidos da série.
-
- 4) Use a função addBands, também do pacote quantmod, para plotar diretamente limites
-superior/inferior sobre a série temporal do item 1). Podemos parametrizar a função fornecendo:
-i) o período da média móvel e ii) a quantidade de desvio padrão relacionados com os limites.
-
- 5) A partir os itens anteriores, faça uma análise dos preços de cotações da Petrobras e verifique
-os reflexos do momento atual que estamos passando (março/abril/2020).
 
